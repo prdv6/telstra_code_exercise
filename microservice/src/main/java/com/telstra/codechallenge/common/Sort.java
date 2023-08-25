@@ -1,7 +1,7 @@
 package com.telstra.codechallenge.common;
 
 public enum Sort {
-    STARS("stars"), FORKS("forks"), HELP_WANTED_ISSUES("help-wanted-issues"), UPDATED("updated");
+    FOLLOWERS("followers"), REPOSITORIES("repositories"), JOINED("joined");
 
     private String value;
 

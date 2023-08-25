@@ -1,6 +1,6 @@
 package com.telstra.codechallenge.common;
 
-import com.telstra.codechallenge.githubapirepository.Repository;
+
 import com.telstra.codechallenge.githubuser.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;

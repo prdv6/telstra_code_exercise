@@ -2,7 +2,7 @@ package com.telstra.codechallenge.githubuser;
 
 import com.telstra.codechallenge.common.SearchParams;
 import com.telstra.codechallenge.common.UserDTO;
-import com.telstra.codechallenge.error.DataNotFoundException;
+import com.telstra.codechallenge.error.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +25,16 @@ public class UserService {
     @Autowired
     private RestTemplate template;
 
-    public List<User> getUsers(SearchParams searchParams) throws DataNotFoundException {
-        LOGGER.info("searchParams inside user service {}",searchParams.getQ());
-        LOGGER.info("searchParams order inside user service {}",searchParams.getOrder());
-        LOGGER.info("searchParams sort inside user service {}",searchParams.getSort());
-        LOGGER.info("searchParams page user service {}",searchParams.getPage());
+    public List<User> getUsers(SearchParams searchParams) throws UserNotFoundException {
+    LOGGER.info("searchParams inside user service {}",searchParams.getQ());
+
 
         String baseUrl = userBaseUrl + "/search/users";
 
 
         URI uri= UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .queryParam("q", searchParams.getQ())
-                .queryParam("sort", searchParams.getSort())
+                .queryParam("sort", searchParams.getSort().value())
                 .queryParam("order", searchParams.getOrder().value())
                 .queryParam("page", searchParams.getPage())
                 .queryParam("per_page", searchParams.getPerPage())
@@ -49,7 +47,7 @@ public class UserService {
 
         if(Objects.nonNull(userDTO) ) {
             if(userDTO.getItems().isEmpty()){
-                throw new DataNotFoundException("No user present");
+                throw new UserNotFoundException("no user present");
             }
 
 
@@ -60,7 +58,7 @@ public class UserService {
                             .html_url(o.getHtml_url())
                             .build())
                         .collect(Collectors.toList());
-            LOGGER.info("repository size  {}", userList.size());
+            LOGGER.info("repository size is  {}", userList.size());
             return userList;
 
         }
